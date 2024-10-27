@@ -1,9 +1,18 @@
 import 'package:flutter/material.dart';
-
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:push_app/config/router/app_router.dart';
+import 'package:push_app/presentation/blocs/notifications_bloc/notifications_bloc.dart';
 import 'config/theme/app_theme.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(
+    MultiBlocProvider(
+      providers: [
+        BlocProvider(create: (_) => NotificationsBloc())
+      ],
+      child: const MyApp(),
+    )
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -11,14 +20,10 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MaterialApp.router(
       debugShowCheckedModeBanner: false,
       theme: AppTheme().getTheme(),
-      home: const Scaffold(
-        body: Center(
-          child: Text('Hello Flutter!'),
-        ),
-      ),
+      routerConfig: appRouter,
     );
   }
 }
