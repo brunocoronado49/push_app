@@ -12,7 +12,9 @@ class HomeScreen extends StatelessWidget {
         title: context.select((NotificationsBloc bloc) => Text('${bloc.state.status}')),
         actions: [
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              context.read<NotificationsBloc>().requestPermission();
+            },
             icon: const Icon(Icons.settings),
           ),
         ],
