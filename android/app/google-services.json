@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "639532412940",
+    "project_id": "flutter-projects-87575",
+    "storage_bucket": "flutter-projects-87575.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:639532412940:android:2419f56101cbc0af0e3e29",
+        "android_client_info": {
+          "package_name": "com.frangelcoronado.push_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB1MDCur_wAtyh-QQVlZI9qrQ1tHSL08Ds"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
