@@ -52,6 +52,8 @@ class NotificationsBloc extends Bloc<NotificationsEvent, NotificationsState> {
 
   void _getFCMToken() async {
     if(state.status != AuthorizationStatus.authorized) return;
+    final token = await messaging.getToken();
+    print('Token: $token');
   }
 
   void handleRemoteMessage(RemoteMessage message) {
