@@ -14,6 +14,7 @@ class HomeScreen extends StatelessWidget {
         actions: [
           IconButton(
             onPressed: () {
+              // Lanza el modal de permisos de la app
               context.read<NotificationsBloc>().requestPermission();
             },
             icon: const Icon(Icons.settings),
