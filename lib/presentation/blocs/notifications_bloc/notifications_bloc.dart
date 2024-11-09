@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:push_app/config/local_notifications/local_notifications.dart';
 import 'package:push_app/domain/entities/push_message.dart';
 import 'package:push_app/firebase_options.dart';
 
@@ -16,8 +15,20 @@ Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
 
 class NotificationsBloc extends Bloc<NotificationsEvent, NotificationsState> {
   FirebaseMessaging messaging = FirebaseMessaging.instance;
+  int pushNumber = 0;
 
-  NotificationsBloc() : super(const NotificationsState()) {
+  final Future<void> Function()? requestLocalNotificationPermissions;
+  final void Function({
+    required int id,
+    String? title,
+    String? body,
+    String? data,
+  })? showLocalNotification;
+
+  NotificationsBloc({
+    this.requestLocalNotificationPermissions,
+    this.showLocalNotification
+  }) : super(const NotificationsState()) {
     on<NotificationStatusChanged>(_notificationStatusChanged);
     on<NotificationRecived>(_onPushMessageRecived);
     _initialStatusCheck(); // verificar estado de notificaciones
@@ -70,12 +81,15 @@ class NotificationsBloc extends Bloc<NotificationsEvent, NotificationsState> {
         : message.notification!.apple?.imageUrl
     );
 
-    LocalNotifications.showLocalNotification(
-      id: 1,
-      body: notification.body,
-      data: notification.data.toString(),
-      title: notification.title
-    );
+    if(showLocalNotification != null) {
+      showLocalNotification!(
+        id: ++pushNumber,
+        body: notification.body,
+        data: notification.messageId,
+        title: notification.title
+      );
+    }
+    
     add(NotificationRecived(notification));
   }
 
@@ -94,7 +108,10 @@ class NotificationsBloc extends Bloc<NotificationsEvent, NotificationsState> {
       sound: true,
     );
 
-    await LocalNotifications.requestPermissionLocalNotification();
+    if(requestLocalNotificationPermissions != null) {
+      await requestLocalNotificationPermissions!();
+    }
+
     add(NotificationStatusChanged(settings.authorizationStatus));
   }
 
