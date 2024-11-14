@@ -10,14 +10,15 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
   await NotificationsBloc.initializeFCM();
-  await LocalNotifications.initializeLocalNotifications();
+  // TODO: remover comentario
+  // await LocalNotifications.initializeLocalNotifications();
 
   runApp(
     MultiBlocProvider(
       providers: [
         BlocProvider(create: (_) => NotificationsBloc(
           requestLocalNotificationPermissions: LocalNotifications.requestPermissionLocalNotification,
-          showLocalNotification: LocalNotifications.showLocalNotification
+          // showLocalNotification: LocalNotifications.showLocalNotification
         ))
       ],
       child: const MyApp(),
